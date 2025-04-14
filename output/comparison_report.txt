@@ -1,0 +1,23 @@
+Multi-Tenant FaaS Simulation Report
+====================================
+
+Tenant 0:
+  Round Robin Time: 1997.894
+  SJF Time        : 1272.3980000000001
+  Winner          : SJF
+
+Tenant 1:
+  Round Robin Time: 794.108
+  SJF Time        : 1644.0500000000002
+  Winner          : Round Robin
+
+Tenant 2:
+  Round Robin Time: 1810.1540000000002
+  SJF Time        : 1755.7680000000003
+  Winner          : SJF
+
+Tenant 3:
+  Round Robin Time: 1263.0040000000001
+  SJF Time        : 1179.8230000000003
+  Winner          : SJF
+
