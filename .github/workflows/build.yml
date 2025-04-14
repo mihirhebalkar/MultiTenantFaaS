@@ -1,37 +1,39 @@
 name: CloudSim Multi-Tenant FaaS Scheduling Comparison
-
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
-
 jobs:
   run-simulations:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
-
+    
     - name: Set up JDK 8
       uses: actions/setup-java@v4
       with:
         java-version: '8'
         distribution: 'temurin'
-
-    - name: Create lib directory
-      run: mkdir -p lib
-
+        
+    - name: Create directories
+      run: |
+        mkdir -p lib
+        mkdir -p bin
+        mkdir -p output
+    
     - name: Copy CloudSim JAR to lib directory
       run: cp libs/cloudsim-3.0.3.jar lib/
-
+      
     - name: Compile Java source files
-      run: |
-        mkdir -p bin
-        javac -cp "lib/*" -d bin $(find src -name "*.java")
-
+      run: javac -cp "lib/*" -d bin $(find src -name "*.java")
+    
     - name: Run Multi-Tenant FaaS Scheduling Simulations
-      run: |
-        mkdir -p output
-        java -cp "bin:lib/*" simulations.MultiTenantFaaS
+      run: java -cp "bin:lib/*" simulations.MultiTenantFaaS
+      
+    - name: Upload simulation results
+      uses: actions/upload-artifact@v4
+      with:
+        name: simulation-results
+        path: output/
