@@ -16,18 +16,17 @@ jobs:
       with:
         java-version: '8'
         distribution: 'temurin'
-        
-    - name: Create directories
-      run: |
-        mkdir -p lib
-        mkdir -p bin
-        mkdir -p output
     
     - name: Copy CloudSim JAR to lib directory
-      run: cp libs/cloudsim-3.0.3.jar lib/
-      
+      run: |
+        # This assumes the CloudSim JAR is already in the lib directory
+        # If not, uncomment the following line
+        # cp libs/cloudsim-3.0.3.jar lib/
+        ls -la lib/
+    
     - name: Compile Java source files
-      run: javac -cp "lib/*" -d bin $(find src -name "*.java")
+      run: |
+        javac -cp "lib/*" -d bin src/simulations/MultiTenantFaaS.java
     
     - name: Run Multi-Tenant FaaS Scheduling Simulations
       run: java -cp "bin:lib/*" simulations.MultiTenantFaaS
