@@ -1,38 +1,55 @@
-name: Java CI for CloudSim Project
+name: CloudSim Multi-Tenant FaaS Scheduling Comparison
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
 
 jobs:
-  build:
-
+  run-simulations:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
-    - name: Set up JDK 8
-      uses: actions/setup-java@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v4
       with:
-        java-version: '8'
-        distribution: 'adopt'
+        java-version: '11'
+        distribution: 'temurin'
 
-    - name: Compile Java Files
+    - name: Create lib directory
+      run: mkdir -p lib
+
+    - name: Copy CloudSim JAR to lib directory
+      run: cp libs/cloudsim-3.0.3.jar lib/
+
+    - name: Compile Java source files
       run: |
         mkdir -p bin
-        javac -d bin -cp "lib/*" $(find src -name "*.java")
+        javac -cp "lib/*" -d bin src/simulations/MultiTenantFaaS.java
 
-    - name: Run Simulation
+    - name: Run Multi-Tenant FaaS Scheduling Simulations
       run: |
         mkdir -p output
         java -cp "bin:lib/*" simulations.MultiTenantFaaS
 
-    - name: Upload Output Files
-      uses: actions/upload-artifact@v3
+    - name: Upload Simulation Logs and Reports
+      uses: actions/upload-artifact@v4
       with:
-        name: simulation-output
-        path: output/
+        name: simulation-reports
+        path: |
+          output/comparison_report.txt
+          output/multitenant_roundrobin.csv
+          output/multitenant_sjf.csv
+
+    - name: Generate Summary
+      run: |
+        echo "## Multi-Tenant FaaS Scheduling Comparison Results" > $GITHUB_STEP_SUMMARY
+        echo "### Round Robin vs SJF Performance" >> $GITHUB_STEP_SUMMARY
+        echo "The simulation logs and comparison reports have been generated successfully." >> $GITHUB_STEP_SUMMARY
+        echo "Check the artifact logs for detailed results." >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "Simulation reports (CSV and comparison report) have been uploaded as artifacts." >> $GITHUB_STEP_SUMMARY
