@@ -1,23 +1,86 @@
-Multi-Tenant FaaS Simulation Report
-====================================
+Multi-Tenant FaaS Simulation Comparison Report
+============================================
 
+Simulation Parameters:
+  Tenants: 4
+  Cloudlets: 20
+  VMs: 5
+  Hosts: 3
+
+Overall Performance Summary:
+---------------------------
+  SJF: Total Execution Time = 5809.8
+  TenantAware: Total Execution Time = 5821.8
+  RoundRobin: Total Execution Time = 5863.37
+
+Best Overall Algorithm: SJF
+
+Per-Tenant Analysis:
+------------------
 Tenant 0:
-  Round Robin Time: 1997.894
-  SJF Time        : 1272.3980000000001
-  Winner          : SJF
+  RoundRobin:
+    Avg Execution Time: 292.51
+    Avg Wait Time: -0
+    Total Execution Time: 1755.04
+  SJF:
+    Avg Execution Time: 291.58
+    Avg Wait Time: -0
+    Total Execution Time: 1749.47
+  TenantAware:
+    Avg Execution Time: 269.84
+    Avg Wait Time: -0
+    Total Execution Time: 1619.05
+  Best Algorithm for Tenant 0: TenantAware
 
 Tenant 1:
-  Round Robin Time: 794.108
-  SJF Time        : 1644.0500000000002
-  Winner          : Round Robin
+  RoundRobin:
+    Avg Execution Time: 291.95
+    Avg Wait Time: -0
+    Total Execution Time: 2043.65
+  SJF:
+    Avg Execution Time: 299.01
+    Avg Wait Time: -0
+    Total Execution Time: 2093.09
+  TenantAware:
+    Avg Execution Time: 300.75
+    Avg Wait Time: -0
+    Total Execution Time: 2105.24
+  Best Algorithm for Tenant 1: RoundRobin
 
 Tenant 2:
-  Round Robin Time: 1810.1540000000002
-  SJF Time        : 1755.7680000000003
-  Winner          : SJF
+  RoundRobin:
+    Avg Execution Time: 294.55
+    Avg Wait Time: 0
+    Total Execution Time: 589.1
+  SJF:
+    Avg Execution Time: 276.84
+    Avg Wait Time: -0
+    Total Execution Time: 553.67
+  TenantAware:
+    Avg Execution Time: 277.43
+    Avg Wait Time: 0
+    Total Execution Time: 554.86
+  Best Algorithm for Tenant 2: SJF
 
 Tenant 3:
-  Round Robin Time: 1263.0040000000001
-  SJF Time        : 1179.8230000000003
-  Winner          : SJF
+  RoundRobin:
+    Avg Execution Time: 295.12
+    Avg Wait Time: -0
+    Total Execution Time: 1475.58
+  SJF:
+    Avg Execution Time: 282.71
+    Avg Wait Time: -0
+    Total Execution Time: 1413.57
+  TenantAware:
+    Avg Execution Time: 308.53
+    Avg Wait Time: -0
+    Total Execution Time: 1542.65
+  Best Algorithm for Tenant 3: SJF
+
+Conclusion:
+----------
+Based on the simulation results, we can observe how different scheduling
+algorithms affect the performance experienced by different tenants in a
+multi-tenant FaaS environment. The choice of optimal algorithm depends on
+specific tenant workloads and organizational priorities.
 
