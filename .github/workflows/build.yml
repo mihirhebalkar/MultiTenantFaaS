@@ -14,10 +14,10 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    - name: Set up JDK 11
+    - name: Set up JDK 8
       uses: actions/setup-java@v4
       with:
-        java-version: '11'
+        java-version: '8'
         distribution: 'temurin'
 
     - name: Create lib directory
@@ -29,27 +29,31 @@ jobs:
     - name: Compile Java source files
       run: |
         mkdir -p bin
-        javac -cp "lib/*" -d bin src/simulations/MultiTenantFaaS.java
+        javac -cp "lib/*" -d bin $(find src -name "*.java")
 
     - name: Run Multi-Tenant FaaS Scheduling Simulations
       run: |
         mkdir -p output
         java -cp "bin:lib/*" simulations.MultiTenantFaaS
 
-    - name: Upload Simulation Logs and Reports
+    - name: Prepare Reports for Upload
+      if: always()
+      run: |
+        mkdir -p safe_upload
+        [ -f output/comparison_report.txt ] && cp output/comparison_report.txt safe_upload/
+        [ -f output/multitenant_roundrobin.csv ] && cp output/multitenant_roundrobin.csv safe_upload/
+        [ -f output/multitenant_sjf.csv ] && cp output/multitenant_sjf.csv safe_upload/
+
+    - name: Upload Artifacts
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: simulation-reports
-        path: |
-          output/comparison_report.txt
-          output/multitenant_roundrobin.csv
-          output/multitenant_sjf.csv
+        path: safe_upload
 
     - name: Generate Summary
+      if: always()
       run: |
-        echo "## Multi-Tenant FaaS Scheduling Comparison Results" > $GITHUB_STEP_SUMMARY
+        echo "## Multi-Tenant FaaS Scheduling Comparison Results" >> $GITHUB_STEP_SUMMARY
         echo "### Round Robin vs SJF Performance" >> $GITHUB_STEP_SUMMARY
-        echo "The simulation logs and comparison reports have been generated successfully." >> $GITHUB_STEP_SUMMARY
-        echo "Check the artifact logs for detailed results." >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "Simulation reports (CSV and comparison report) have been uploaded as artifacts." >> $GITHUB_STEP_SUMMARY
+        echo "Simulation completed using Java 1.8. Reports (if any) are uploaded." >> $GITHUB_STEP_SUMMARY
