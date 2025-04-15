@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FaaS Simulation Results</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Multi-Tenant FaaS Simulation Results</h1>
+        
+        <div class="tabs">
+            <button class="tab-button active" data-tab="roundrobin">Round Robin</button>
+            <button class="tab-button" data-tab="sjf">Shortest Job First</button>
+            <button class="tab-button" data-tab="tenantaware">Tenant Aware</button>
+            <button class="tab-button" data-tab="comparison">Comparison</button>
+        </div>
+        
+        <div class="tab-content">
+            <!-- Round Robin Tab -->
+            <div id="roundrobin" class="tab-pane active">
+                <h2>Round Robin Results</h2>
+                <div class="chart-container">
+                    <canvas id="rr-chart"></canvas>
+                </div>
+                <h3>Data Table</h3>
+                <div class="table-container">
+                    <table id="rr-table">
+                        <thead>
+                            <tr>
+                                <th>Cloudlet ID</th>
+                                <th>Status</th>
+                                <th>Start Time</th>
+                                <th>Finish Time</th>
+                                <th>Exec Time</th>
+                                <th>Tenant ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="6">Loading data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- SJF Tab -->
+            <div id="sjf" class="tab-pane">
+                <h2>Shortest Job First Results</h2>
+                <div class="chart-container">
+                    <canvas id="sjf-chart"></canvas>
+                </div>
+                <h3>Data Table</h3>
+                <div class="table-container">
+                    <table id="sjf-table">
+                        <thead>
+                            <tr>
+                                <th>Cloudlet ID</th>
+                                <th>Status</th>
+                                <th>Start Time</th>
+                                <th>Finish Time</th>
+                                <th>Exec Time</th>
+                                <th>Tenant ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="6">Loading data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Tenant Aware Tab -->
+            <div id="tenantaware" class="tab-pane">
+                <h2>Tenant Aware Results</h2>
+                <div class="chart-container">
+                    <canvas id="ta-chart"></canvas>
+                </div>
+                <h3>Data Table</h3>
+                <div class="table-container">
+                    <table id="ta-table">
+                        <thead>
+                            <tr>
+                                <th>Cloudlet ID</th>
+                                <th>Status</th>
+                                <th>Start Time</th>
+                                <th>Finish Time</th>
+                                <th>Exec Time</th>
+                                <th>Tenant ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="6">Loading data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Comparison Tab -->
+            <div id="comparison" class="tab-pane">
+                <h2>Algorithm Comparison</h2>
+                <div class="chart-container">
+                    <canvas id="comparison-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
